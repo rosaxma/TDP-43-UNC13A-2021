@@ -1,0 +1,7 @@
+[info]
+bamdirs=/home/users/rosaxma/oak/Shared_Sequencing/Rosa/RNAseq/TDP_depletion_final
+genome=hg38
+strandness=none
+[experiments]
+control=SRR8571937.sorted,SRR8571939.sorted,SRR8571941.sorted,SRR8571944.sorted,SRR8571947.sorted,SRR8571949.sorted,SRR8571951.sorted
+TDP_negative=SRR8571938.sorted,SRR8571940.sorted,SRR8571942.sorted,SRR8571945.sorted,SRR8571948.sorted,SRR8571950.sorted,SRR8571952.sorted
