@@ -1,0 +1,14 @@
+SRR8571937	control
+SRR8571939	control
+SRR8571941	control
+SRR8571944	control
+SRR8571947	control
+SRR8571949	control
+SRR8571951	control
+SRR8571938	TDP_negative
+SRR8571940	TDP_negative
+SRR8571942	TDP_negative
+SRR8571945	TDP_negative
+SRR8571948	TDP_negative
+SRR8571950	TDP_negative
+SRR8571952	TDP_negative
