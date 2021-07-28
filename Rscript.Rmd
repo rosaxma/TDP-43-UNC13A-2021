@@ -1,0 +1,244 @@
+---
+title: "Ma_et_al"
+author: "Rosa"
+date: "7/7/2021"
+output: html_document
+---
+
+
+# Figure 2C; Scatter plot and spearman correlation
+```{r Figure 2a}
+library(readxl)
+figure_2c_data=read_excel("Main_figure_source_data.xlsx",sheet="Figure 2c")
+print(colnames(figure_2c_data))
+names(figure_2c_data)[names(figure_2c_data)=="Cryptic Exon RT-qPCR signal (Normalized to the mean of healthy controls)"] <- "CE_qPCR"
+names(figure_2c_data)[names(figure_2c_data)=="pTDP-43"] <- "pTDP43"
+
+#Recode variables 
+figure_2c_data$Sex_binary=figure_2c_data$Sex
+figure_2c_data$Sex_binary[figure_2c_data$Sex == "F"] = 0
+figure_2c_data$Sex_binary[figure_2c_data$Sex == "M"] = 1
+
+
+figure_2c_data$Genotype=factor(figure_2c_data$Genotype,levels=c("Sporadic","C9ORF72+","GRN+"))
+
+```
+
+```{r Figure 2a_plot}
+library(ggplot2)
+library("viridis")
+pdf("scatterplot_cryptic_exon_pTDP_43.pdf",width=10, height=10, bg="transparent")
+ggplot_scattercryptic_exon_TDP_43 <- ggplot(figure_2c_data, aes(x=pTDP43, y=CE_qPCR)) + 
+  geom_point(aes(col=Genotype),size=6) + scale_color_viridis(discrete=TRUE)+
+theme_classic() +theme(axis.line = element_line(colour = 'black', size = 2),legend.title=element_blank(),axis.ticks = element_line(colour = "black", size = 1.5),legend.background=element_rect(size=1, linetype="solid",color="black"),legend.position="none",axis.text.x = element_text(size=30,face = "bold",color="black"), axis.text.y = element_text(size=30,face = "bold",color="black"), axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0), size=0,color="white"), axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0), size=0,color="white"),text=element_text(family="Helvetica"))
+plot(ggplot_scattercryptic_exon_TDP_43)
+dev.off()
+```
+
+
+```{r Figure 2a_spearsman_correlation }
+spearman_cor_total <- 
+  cor.test(figure_2c_data$CE_qPCR,
+           figure_2c_data$pTDP43,  method = "spearman", exact = FALSE)
+
+spearman_cor_C9_sporadic<-
+  cor.test(figure_2c_data$CE_qPCR[figure_2c_data$Genotype=="Sporadic"],
+           figure_2c_data$pTDP43[figure_2c_data$Genotype=="Sporadic"],
+           method = "spearman", exact = FALSE)
+
+spearman_cor_C9_positive <-
+  cor.test(figure_2c_data$CE_qPCR[figure_2c_data$Genotype=="C9ORF72+"],
+           figure_2c_data$pTDP43[figure_2c_data$Genotype=="C9ORF72+"],
+           method = "spearman", exact = FALSE)
+
+spearman_cor_GRN <-
+  cor.test(figure_2c_data$CE_qPCR[figure_2c_data$Genotype=="GRN+"],
+           figure_2c_data$pTDP43[figure_2c_data$Genotype=="GRN+"],
+           method = "spearman", exact = FALSE)
+print(spearman_cor_total)
+print(spearman_cor_C9_sporadic)
+print(spearman_cor_C9_positive)
+print(spearman_cor_GRN)
+```
+# Survival Analysis
+```{r Figure 4h}
+figure_4h_data=read_excel("Main_figure_source_data.xlsx",sheet="Figure 4h" )
+#Recode variables 
+figure_4h_data$Sex_binary=figure_4h_data$Sex
+figure_4h_data$Sex_binary[figure_4h_data$Sex == "F"] = 0
+figure_4h_data$Sex_binary[figure_4h_data$Sex == "M"] = 1
+
+
+
+# Create an variable that represents the number of minor allele at rs12973192
+figure_4h_data$genotype_coding_CG=figure_4h_data$Genotype_at_SNP_CG
+figure_4h_data$genotype_coding_CG[figure_4h_data$Genotype_at_SNP_CG=="C/C"]=0
+figure_4h_data$genotype_coding_CG[figure_4h_data$Genotype_at_SNP_CG=="G/G"]=2
+figure_4h_data$genotype_coding_CG[figure_4h_data$Genotype_at_SNP_CG=="G/C"]=1
+figure_4h_data$genotype_coding_CG[figure_4h_data$Genotype_at_SNP_CG=="C/G"]=1
+
+# Create an variable that represents the number of minor allele at rs12608932
+figure_4h_data$genotype_coding_AC=figure_4h_data$Genotype_at_SNP_AC
+figure_4h_data$genotype_coding_AC[figure_4h_data$Genotype_at_SNP_AC=="A/A"]=0
+figure_4h_data$genotype_coding_AC[figure_4h_data$Genotype_at_SNP_AC=="C/C"]=2
+figure_4h_data$genotype_coding_AC[figure_4h_data$Genotype_at_SNP_AC=="A/C"]=1
+figure_4h_data$genotype_coding_AC[figure_4h_data$Genotype_at_SNP_AC=="C/A"]=1
+
+figure_4h_data$genotype_coding_CG = as.numeric(figure_4h_data$genotype_coding_CG)
+figure_4h_data$genotype_coding_AC = as.numeric(figure_4h_data$genotype_coding_AC)
+
+names(figure_4h_data)[names(figure_4h_data)=="Age at onset"] <- "Age_onset"
+names(figure_4h_data)[names(figure_4h_data)=="Survival years"] <- "Survival_years"
+
+figure_4h_data=figure_4h_data[figure_4h_data$Survival_years != "NA",]
+
+figure_4h_data$censor=rep(1,dim(figure_4h_data)[1])
+#dominant model
+figure_4h_data$dominant_model=figure_4h_data$genotype_coding_CG
+figure_4h_data$dominant_model[figure_4h_data$genotype_coding_CG==2]=1
+figure_4h_data$dominant_model=as.factor(figure_4h_data$dominant_model)
+
+#recessive model
+figure_4h_data$recessive_model=figure_4h_data$genotype_coding_CG
+figure_4h_data$recessive_model[figure_4h_data$genotype_coding_CG==1]=0
+figure_4h_data$recessive_model[figure_4h_data$genotype_coding_CG==2]=1
+figure_4h_data$recessive_model=as.factor(figure_4h_data$recessive_model)
+
+
+
+figure_4h_data$Age_onset = as.numeric(figure_4h_data$Age_onset)
+figure_4h_data$Survival_years = as.numeric(figure_4h_data$Survival_years)
+
+
+# Filter for patients whose SNPs are in LD
+figure_4h_data=figure_4h_data[figure_4h_data$genotype_coding_CG == figure_4h_data$genotype_coding_AC, ]
+dim(figure_4h_data[figure_4h_data$Genotype_at_SNP_CG == "C/C" & figure_4h_data$Genotype_at_SNP_CG == "C/C",])[0]
+dim(figure_4h_data[figure_4h_data$Genotype_at_SNP_CG == "G/G" & figure_4h_data$Genotype_at_SNP_CG== "A/A", ])[0]
+```
+# Suvival Analysis
+```{r Figure 4h}
+library(survival)
+
+figure_4h_data$Genotype=factor(figure_4h_data$Genotype, level=c("Sporadic","C9ORF72+","GRN+"))
+
+cox.fit_additive=coxph(Surv(Survival_years,censor)~genotype_coding_CG+Genotype+Age_onset+Sex_binary,data=figure_4h_data)
+summary(cox.fit_additive)
+
+cox.fit_dominant=coxph(Surv(Survival_years,censor)~dominant_model+Genotype+Age_onset+Sex_binary,data=figure_4h_data)
+summary(cox.fit_dominant)
+
+cox.fit_recessive=coxph(Surv(Survival_years,censor)~recessive_model+Genotype+Age_onset+Sex_binary,data=figure_4h_data)
+summary(cox.fit_recessive)
+
+AIC(cox.fit_additive)
+AIC(cox.fit_dominant)
+AIC(cox.fit_recessive)
+
+#Check for proportional hazards hypothesis; small p values indicate the assumption is violated
+test.ph_additive <- cox.zph(cox.fit_additive)
+test.ph_dominant <- cox.zph(cox.fit_dominant)
+test.ph_recessive <- cox.zph(cox.fit_recessive)
+test.ph_additive
+test.ph_dominant
+test.ph_recessive 
+
+
+# Testing influential observations
+library(survminer)
+ggcoxdiagnostics(cox.fit_additive, type = "dfbeta",
+                 linear.predictions = TRUE, ggtheme = theme_bw())
+ggcoxdiagnostics(cox.fit_dominant, type = "dfbeta",
+                 linear.predictions = TRUE, ggtheme = theme_bw())
+ggcoxdiagnostics(cox.fit_recessive, type = "dfbeta",
+                 linear.predictions = TRUE, ggtheme = theme_bw())
+
+ggcoxdiagnostics(cox.fit_additive, type = "deviance",
+                 linear.predictions = TRUE, ggtheme = theme_bw())
+ggcoxdiagnostics(cox.fit_dominant, type = "deviance",
+                 linear.predictions = TRUE, ggtheme = theme_bw())
+ggcoxdiagnostics(cox.fit_recessive, type = "deviance",
+                 linear.predictions = TRUE, ggtheme = theme_bw())
+
+```
+
+```{r Figure 4h}
+pdf("survival_curve_additive_model.pdf",width=20, height=10, bg="transparent", onefile=F)
+survival_curve_additive_model <- survfit(Surv(Survival_years,censor)~genotype_coding_CG,data=figure_4h_data)
+ggsurvplot(survival_curve_additive_model, data = figure_4h_data,censor=TRUE,font.tickslab=c(30,"bold","black"), surv.median.line = "hv",font.x="0",font.y="0", palette = c("orange","dark blue","dark green"),size=5, legend="none",risk.table=TRUE)
+dev.off()
+```
+
+```{r Figure 4h}
+pdf("survival_curve_dominant_model.pdf",width=20, height=10, bg="transparent", onefile=F)
+survival_curve_dominant_model <- survfit(Surv(Survival_years,censor)~dominant_model,data=figure_4h_data)
+ggsurvplot(survival_curve_dominant_model, data = figure_4h_data,censor=TRUE,font.tickslab=c(30,"bold","black"), surv.median.line = "hv",font.x="0",font.y="0", palette = c("orange","dark green"),size=5, legend="none",risk.table=TRUE)
+dev.off()
+```
+
+```{r Figure 4h}
+pdf("survival_curve_recessive_model.pdf",width=20, height=10, bg="transparent", onefile=F)
+survival_curve_recessive_model <- survfit(Surv(Survival_years,censor)~recessive_model,data=figure_4h_data)
+ggsurvplot(survival_curve_recessive_model, data = figure_4h_data,censor=TRUE,font.tickslab=c(30,"bold","black"), surv.median.line = "hv",font.x="0",font.y="0", palette = c("orange","dark blue"),size=5, legend="none",risk.table=TRUE)
+dev.off()
+```
+# Extended table; Multiple linear regression
+```{r supp table}
+supp_table_data=read_excel("Supp_figure_source_data.xlsx",sheet="snp_correlation")
+names(supp_table_data)[names(supp_table_data)=="Cryptic Exon RT-qPCR signal (Normalized to the mean of healthy controls)"] <- "CE_qPCR"
+names(supp_table_data)[names(supp_table_data)=="pTDP-43"] <- "pTDP43"
+supp_table_data$Genotype=factor(supp_table_data$Genotype,levels=c("Sporadic","C9ORF72+","GRN+"))
+names(supp_table_data)[names(supp_table_data)=="Age at onset"] <- "Age_onset"
+names(supp_table_data)[names(supp_table_data)=="Survival years"] <- "Survival_years"
+
+#Recode variables 
+supp_table_data$Sex_binary=supp_table_data$Sex
+supp_table_data$Sex_binary[supp_table_data$Sex == "F"] = 0
+supp_table_data$Sex_binary[supp_table_data$Sex == "M"] = 1
+
+
+supp_table_data$Genotype=factor(supp_table_data$Genotype,levels=c("Sporadic","C9ORF72+","GRN+"))
+
+
+
+# Create an variable that represents the number of minor allele at rs12973192
+supp_table_data$genotype_coding_CG=supp_table_data$Genotype_at_SNP_CG
+supp_table_data$genotype_coding_CG[supp_table_data$Genotype_at_SNP_CG=="C/C"]=0
+supp_table_data$genotype_coding_CG[supp_table_data$Genotype_at_SNP_CG=="G/G"]=2
+supp_table_data$genotype_coding_CG[supp_table_data$Genotype_at_SNP_CG=="G/C"]=1
+supp_table_data$genotype_coding_CG[supp_table_data$Genotype_at_SNP_CG=="C/G"]=1
+
+# Create an variable that represents the number of minor allele at rs12608932
+supp_table_data$genotype_coding_AC=supp_table_data$Genotype_at_SNP_AC
+supp_table_data$genotype_coding_AC[supp_table_data$Genotype_at_SNP_AC=="A/A"]=0
+supp_table_data$genotype_coding_AC[supp_table_data$Genotype_at_SNP_AC=="C/C"]=2
+supp_table_data$genotype_coding_AC[supp_table_data$Genotype_at_SNP_AC=="A/C"]=1
+supp_table_data$genotype_coding_AC[supp_table_data$Genotype_at_SNP_AC=="C/A"]=1
+
+supp_table_data$genotype_coding_CG = as.numeric(supp_table_data$genotype_coding_CG)
+supp_table_data$genotype_coding_AC = as.numeric(supp_table_data$genotype_coding_AC)
+
+supp_table_data=supp_table_data[supp_table_data$CE_qPCR != 0,]
+supp_table_data=supp_table_data[supp_table_data$Genotype_at_SNP_CG != "ND",]
+supp_table_data=
+  supp_table_data[supp_table_data$genotype_coding_CG 
+                            == supp_table_data$genotype_coding_AC, ]
+supp_table_data$Genotype = factor(supp_table_data$Genotype)
+supp_table_data$Symptom = factor(supp_table_data$Symptom)
+supp_table_data$Sex_binary = factor(supp_table_data$Sex_binary)
+```
+
+```{r supp_table_linear_regression}
+# with log transformation
+log_10_lm_snp_ce_qpcr=lm(log10(CE_qPCR) ~ genotype_coding_CG+log10(pTDP43)+Sex_binary+Genotype+Symptom+Age_onset,data=supp_table_data)
+log_10_lm_snp_ce_qpcr_wo_age=lm(log10(CE_qPCR) ~ genotype_coding_CG+log10(pTDP43)+Sex_binary+Genotype+Symptom,data=supp_table_data)
+summary(log_10_lm_snp_ce_qpcr)
+AIC(log_10_lm_snp_ce_qpcr)
+shapiro.test(resid(log_10_lm_snp_ce_qpcr))
+
+# without log transformation
+lm_snp_ce_qpcr=lm(CE_qPCR ~ genotype_coding_CG+pTDP43+Sex_binary+Genotype+Symptom+Age_onset,data=supp_table_data)
+summary(lm_snp_ce_qpcr)
+AIC(lm_snp_ce_qpcr)
+shapiro.test(resid(lm_snp_ce_qpcr))
+
+```
