@@ -115,6 +115,33 @@ figure_4h_data=figure_4h_data[figure_4h_data$genotype_coding_CG == figure_4h_dat
 dim(figure_4h_data[figure_4h_data$Genotype_at_SNP_CG == "C/C" & figure_4h_data$Genotype_at_SNP_CG == "C/C",])[0]
 dim(figure_4h_data[figure_4h_data$Genotype_at_SNP_CG == "G/G" & figure_4h_data$Genotype_at_SNP_CG== "A/A", ])[0]
 ```
+
+#BaseScope
+```{r Figure 3}
+# Linear mixed model
+library (lmerTest) # Mixed model package by Douglas Bates, comes w/ pvalues! 
+# 7 different patient samples;disease vs. healthy; 6 different fields
+MND1 <- c(29,14,8,6,4,0)
+MND2 <- c(8,2,4,4,1,10)
+MND3 <- c(1,1,1,0,4,1)
+MND4 <- c(11,8,1,5,8,3)
+  
+ctrl1 <-c(1,1,1,0,1,0)
+ctrl2 <-c(1,0,0,1,1,1)
+ctrl3 <-c(0,0,0,1,0,0)
+
+#ce_21_df <-data.frame(ID=as.factor(c("GM","4048","005")),cond=c("scr","stdp"),scr_qpcr=c(ipsc_ce_21_scr_GM,ipsc_ce_21_scr_4048,ipsc_ce_21_scr_005),tdp_qpcr=c(ipsc_ce_21_stdp_GM,ipsc_ce_21_stdp_4048,ipsc_ce_21_stdp_005))
+
+basescope<-data.frame(ID=as.factor(c(rep("MND1",6),rep("MND2",6),rep("MND3",6),rep("MND4",6),rep("ctrl1",6),rep("ctrl2",6),rep("ctrl3",6))), cond=as.factor(c(rep("patients",24),rep("ctrls",18))),
+                           puncta=as.numeric(c(MND1,MND2,MND3,MND4,ctrl1,ctrl2,ctrl3)))
+                                                                                                                       
+   
+
+model_puncta=lmer(puncta ~ cond + (1|ID), data=basescope, REML=FALSE)
+summary(model_puncta)
+```
+
+
 # Suvival Analysis
 ```{r Figure 4h}
 library(survival)
@@ -242,3 +269,6 @@ AIC(lm_snp_ce_qpcr)
 shapiro.test(resid(lm_snp_ce_qpcr))
 
 ```
+
+
+
