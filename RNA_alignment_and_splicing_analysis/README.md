@@ -1,16 +1,15 @@
-# Running the RNA-seq pipeline
- `./sh_RNAseq_210224.sh . ~/oak/Shared_Sequencing/Rosa/RNAseq/TDP_depletion_final hg38_RNAseq_updated.ini`
- The reference files are included in RNA-Seq refereces:///
- 
+## Running the RNA-seq pipeline
+ `./sh_RNAseq.sh </path/to/fastq(.gz)/folder> </path/to/destination/folder> hg38_RNAseq.ini` (Adapted from https://github.com/emc2cube/Bioinformatics)
+Annotation files for hg38 are provided in the reference_files folder. Other reference files are not provided due to the file size limit.
+
 ## Visualization in Voila
  The Voila App can be downloaded from https://majiq.biociphers.org/app_download/
  The instruction for using Voila can be found at  https://biociphers.bitbucket.io/majiq/VOILA_app.html
  Files needed for using Voila are in the majiq/voila_files folder.
  
-  
 ## Visualization in Leafcutter
   Visualization of the Leafcutter results would require SSH tunneling if .\/run_leafviz.R \*.RData is run on an HPC cluster. 
-  The instruction for doing this on a SLURM based cluster is as following (adapted from https://hpc-training.sdsc.edu/notebooks-101/Docs/source/methods/tunneling.html)
+  The instruction for doing this on a SLURM based cluster is as following (adapted from https://hpc-training.sdsc.edu/notebooks-101/Docs/source/methods/tunneling.html):
   1. Open two terminals on your computer
   2. SSH into HPC from your command using command `ssh user@...`
   3. Claim an interactive node: `srun ...`
