@@ -1,5 +1,5 @@
 ## Running the RNA-seq pipeline
- `./sh_RNAseq.sh </path/to/fastq(.gz)/folder> </path/to/destination/folder> hg38_RNAseq.ini`   (Adapted from https://github.com/emc2cube/Bioinformatics). 
+ `./sh_RNAseq.sh </path/to/fastq(.gz)/folder> </path/to/destination/folder> hg38_RNAseq.ini`   (Adapted from https://github.com/emc2cube/Bioinformatics).  
 Annotation files for hg38 are provided in the reference_files folder. Other reference files are not provided due to the file size limit.
 
 ## Visualization in Voila
