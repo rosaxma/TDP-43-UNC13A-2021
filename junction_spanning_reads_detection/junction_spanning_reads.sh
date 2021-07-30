@@ -10,12 +10,14 @@ module load biology bedtools/2.27.1
 #The range of chromosome that contains the cryptic exon and the spanning exons; STMN2: exon1-exon2; UNC13A:exon19-exon21
 STMN2_exon_range="chr8:79611117-79636897"
 UNC13A_exon_range="chr19:17641393-17645843"
-bam_file_location="/bams"
+bam_file_location=""
 #use ../ because all the following files are located in the previous directory
 STMN2_cryptic_exon_coordinates="STMN2_hg38_cryptic_exon.bed"
 STMN2_exon_1_coordinates="STMN2_hg38_exon_1.bed"
 STMN2_exon_2_coordinates="STMN2_hg38_exon_2.bed"
+#128 bp cryptic exon
 UNC13A_cryptic_exon_coordinates="UNC13A_hg38_cryptic_exon.bed"
+#178 bp crypitc exon
 UNC13A_alt_cryptic_exon_coordinates="UNC13A_hg38_alt_cryptic_exon.bed"
 UNC13A_exon_19_coordinates="UNC13A_hg38_exon_19.bed"
 UNC13A_exon_20_coordinates="UNC13A_hg38_exon_20.bed"
