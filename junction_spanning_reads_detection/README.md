@@ -1,0 +1,1 @@
+The script for detecting the junction spanning reads from the BAM files (https://software.broadinstitute.org/software/igv/BAM) of the NYGC tissue samples. The required bed files are in the bed_files folder. 
