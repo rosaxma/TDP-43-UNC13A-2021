@@ -1,0 +1,24 @@
+MISO (Mixture of Isoforms model)
+Probabilistic analysis of RNA-Seq data to detect differential isoforms
+Use --help argument to view options.
+
+Using MISO settings file: /home/users/rosaxma/.local/lib/python2.7/site-packages/misopy/settings/miso_settings.txt
+Computing Psi for genes from file...
+  - Input file: /oak/stanford/groups/agitler/Rosa/UNC13A_cryptic_exon/slice_index_for_UNC13A/graphing/SRR8571952/batch-genes/batch-0_genes.txt
+  - Paired-end mode
+Computing Psi for 1 genes...
+  - chr19:17642845:17642960:-@chr19:17642414:17642541:-@chr19:17641393:17641556:-
+  - GFF filename: /oak/stanford/groups/agitler/Rosa/UNC13A_cryptic_exon/slice_index_for_UNC13A/gff/indexed/chr19/chr19:17642845:17642960:-@chr19:17642414:17642541:-@chr19:17641393:17641556:-.pickle
+  - BAM: /oak/stanford/groups/agitler/Rosa/UNC13A_cryptic_exon/slice_index_for_UNC13A/SRR8571952_UNC13A.sorted.bam
+  - Outputting to: /oak/stanford/groups/agitler/Rosa/UNC13A_cryptic_exon/slice_index_for_UNC13A/graphing/SRR8571952
+  - Paired-end mode:  (500.0, 100.0)
+Loading BAM filename from: /oak/stanford/groups/agitler/Rosa/UNC13A_cryptic_exon/slice_index_for_UNC13A/SRR8571952_UNC13A.sorted.bam
+Filtered out 72 read pairs that were on same strand.
+Filtered out 72 reads that had no paired mate.
+  - Total read pairs: 325
+No. reads discarded due to strand violation: 0
+93 raw reads in event
+Outputting samples to: /oak/stanford/groups/agitler/Rosa/UNC13A_cryptic_exon/slice_index_for_UNC13A/graphing/SRR8571952/chr19/chr19:17642845:17642960:-@chr19:17642414:17642541:-@chr19:17641393:17641556:-.miso...
+Completed outputting.
+Event took 0.10 seconds
+Processed 1 genes
