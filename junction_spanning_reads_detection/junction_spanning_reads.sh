@@ -19,6 +19,7 @@ STMN2_exon_2_coordinates="STMN2_hg38_exon_2.bed"
 UNC13A_cryptic_exon_coordinates="UNC13A_hg38_cryptic_exon.bed"
 #178 bp crypitc exon
 UNC13A_alt_cryptic_exon_coordinates="UNC13A_hg38_alt_cryptic_exon.bed"
+
 UNC13A_exon_19_coordinates="UNC13A_hg38_exon_19.bed"
 UNC13A_exon_20_coordinates="UNC13A_hg38_exon_20.bed"
 UNC13A_exon_21_coordinates="UNC13A_hg38_exon_21.bed"
