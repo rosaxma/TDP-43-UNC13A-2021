@@ -1,8 +1,8 @@
 [data]
 # directory where BAM files are
-bam_prefix = /home/users/rosaxma/oak/Rosa/UNC13A_cryptic_exon/slice_index_for_UNC13A/
+bam_prefix = 
 # directory where MISO output is
-miso_prefix = /home/users/rosaxma/oak/Rosa/UNC13A_cryptic_exon/slice_index_for_UNC13A/graphing
+miso_prefix = 
 
 bam_files = [
 	"SRR8571937_UNC13A.sorted.bam",
