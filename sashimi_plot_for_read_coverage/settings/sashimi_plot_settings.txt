@@ -1,0 +1,112 @@
+[data]
+# directory where BAM files are
+bam_prefix = /home/users/rosaxma/oak/Rosa/UNC13A_cryptic_exon/slice_index_for_UNC13A/
+# directory where MISO output is
+miso_prefix = /home/users/rosaxma/oak/Rosa/UNC13A_cryptic_exon/slice_index_for_UNC13A/graphing
+
+bam_files = [
+	"SRR8571937_UNC13A.sorted.bam",
+	"SRR8571939_UNC13A.sorted.bam",
+	"SRR8571941_UNC13A.sorted.bam",
+	"SRR8571944_UNC13A.sorted.bam",
+	"SRR8571947_UNC13A.sorted.bam",
+	"SRR8571949_UNC13A.sorted.bam",
+	"SRR8571951_UNC13A.sorted.bam",
+	"SRR8571938_UNC13A.sorted.bam",
+	"SRR8571940_UNC13A.sorted.bam",
+	"SRR8571942_UNC13A.sorted.bam",
+	"SRR8571945_UNC13A.sorted.bam",
+	"SRR8571948_UNC13A.sorted.bam",
+	"SRR8571950_UNC13A.sorted.bam",
+	"SRR8571952_UNC13A.sorted.bam"]
+
+
+miso_files = [
+	"SRR8571937",
+	"SRR8571939",
+	"SRR8571941",
+	"SRR8571944",
+	"SRR8571947",
+	"SRR8571949",
+	"SRR8571951",
+	"SRR8571938",
+	"SRR8571940",
+	"SRR8571942",
+	"SRR8571945",
+	"SRR8571948",
+	"SRR8571950",
+	"SRR8571952"]
+
+[plotting]
+# Dimensions of figure to be plotted (in inches)
+fig_width = 10
+fig_height = 14
+# Factor to scale down introns and exons by
+intron_scale = 15
+exon_scale = 5
+# Whether to use a log scale or not when plotting
+logged = False
+font_size = 10
+
+# Max y-axis
+ymax =90 
+
+# Whether to plot posterior distributions inferred by MISO
+show_posteriors = False
+
+# Whether to show posterior distributions as bar summaries
+bar_posteriors = False
+
+# Whether to plot the number of reads in each junction
+number_junctions = False
+
+# resolution = .5
+resolution = 1
+posterior_bins = 40
+gene_posterior_ratio = 5
+
+# List of colors for read denisites of each sample
+colors = [
+	"#414487FF",
+	"#414487FF",
+	"#414487FF",
+	"#414487FF",
+	"#414487FF",
+	"#414487FF",
+	"#414487FF",
+	"#22A884FF",
+	"#22A884FF",
+	"#22A884FF",
+	"#22A884FF",
+	"#22A884FF",
+	"#22A884FF",
+	"#22A884FF"]
+		
+
+# Number of mapped reads in each sample
+# (Used to normalize the read density for RPKM calculation)
+coverages = [
+	51498870,
+	62043490,
+	51871187,
+	64249051,
+	62962755,
+	59180014,
+	55268648,
+	52997711,
+	57457667,
+	52958315,
+	58225092,
+	62317480,
+	62371991,
+	48942014]
+	
+
+
+# Bar color for Bayes factor distribution
+# plots (--plot-bf-dist)
+# Paint them blue
+bar_color = "b"
+
+# Bayes factors thresholds to use for --plot-bf-dist
+bf_thresholds = [0, 1, 2, 5, 10, 20]
