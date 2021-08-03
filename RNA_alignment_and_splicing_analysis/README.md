@@ -24,3 +24,6 @@ Couldn't get a file descriptor referring to the console``` at the end of the out
   
 ## LeafCutter & MAJIQ
   Each directory contains the outputs from the corresponding tool.
+  
+## DESeq2
+   Output from differential expression analysis using DESeq2.
