@@ -7,7 +7,7 @@ output: html_document
 
 
 # Figure 2C; Scatter plot and spearman correlation
-```{r Figure 2a}
+```{r Figure 2c}
 library(readxl)
 figure_2c_data=read_excel("Main_figure_source_data.xlsx",sheet="Figure 2c")
 print(colnames(figure_2c_data))
@@ -24,7 +24,7 @@ figure_2c_data$Genotype=factor(figure_2c_data$Genotype,levels=c("Sporadic","C9OR
 
 ```
 
-```{r Figure 2a_plot}
+```{r Figure 2c_plot}
 library(ggplot2)
 library("viridis")
 pdf("scatterplot_cryptic_exon_pTDP_43.pdf",width=10, height=10, bg="transparent")
@@ -36,7 +36,7 @@ dev.off()
 ```
 
 
-```{r Figure 2a_spearsman_correlation }
+```{r Figure 2c_spearsman_correlation }
 spearman_cor_total <- 
   cor.test(figure_2c_data$CE_qPCR,
            figure_2c_data$pTDP43,  method = "spearman", exact = FALSE)
@@ -60,8 +60,35 @@ print(spearman_cor_C9_sporadic)
 print(spearman_cor_C9_positive)
 print(spearman_cor_GRN)
 ```
+
+
+#BaseScope
+```{r Figure 3c}
+# Linear mixed model
+library (lmerTest) # Mixed model package by Douglas Bates, comes w/ pvalues! 
+# 7 different patient samples;disease vs. healthy; 6 different fields
+MND1 <- c(29,14,8,6,4,0)
+MND2 <- c(8,2,4,4,1,10)
+MND3 <- c(1,1,1,0,4,1)
+MND4 <- c(11,8,1,5,8,3)
+  
+ctrl1 <-c(1,1,1,0,1,0)
+ctrl2 <-c(1,0,0,1,1,1)
+ctrl3 <-c(0,0,0,1,0,0)
+
+#ce_21_df <-data.frame(ID=as.factor(c("GM","4048","005")),cond=c("scr","stdp"),scr_qpcr=c(ipsc_ce_21_scr_GM,ipsc_ce_21_scr_4048,ipsc_ce_21_scr_005),tdp_qpcr=c(ipsc_ce_21_stdp_GM,ipsc_ce_21_stdp_4048,ipsc_ce_21_stdp_005))
+
+basescope<-data.frame(ID=as.factor(c(rep("MND1",6),rep("MND2",6),rep("MND3",6),rep("MND4",6),rep("ctrl1",6),rep("ctrl2",6),rep("ctrl3",6))), cond=as.factor(c(rep("patients",24),rep("ctrls",18))),
+                           puncta=as.numeric(c(MND1,MND2,MND3,MND4,ctrl1,ctrl2,ctrl3)))
+                                                                                                                       
+   
+
+model_puncta=lmer(puncta ~ cond + (1|ID), data=basescope, REML=FALSE)
+summary(model_puncta)
+```
+
 # Survival Analysis
-```{r Figure 4h}
+```{r Figure 4g}
 figure_4h_data=read_excel("Main_figure_source_data.xlsx",sheet="Figure 4h" )
 #Recode variables 
 figure_4h_data$Sex_binary=figure_4h_data$Sex
@@ -116,34 +143,8 @@ dim(figure_4h_data[figure_4h_data$Genotype_at_SNP_CG == "C/C" & figure_4h_data$G
 dim(figure_4h_data[figure_4h_data$Genotype_at_SNP_CG == "G/G" & figure_4h_data$Genotype_at_SNP_CG== "A/A", ])[0]
 ```
 
-#BaseScope
-```{r Figure 3}
-# Linear mixed model
-library (lmerTest) # Mixed model package by Douglas Bates, comes w/ pvalues! 
-# 7 different patient samples;disease vs. healthy; 6 different fields
-MND1 <- c(29,14,8,6,4,0)
-MND2 <- c(8,2,4,4,1,10)
-MND3 <- c(1,1,1,0,4,1)
-MND4 <- c(11,8,1,5,8,3)
-  
-ctrl1 <-c(1,1,1,0,1,0)
-ctrl2 <-c(1,0,0,1,1,1)
-ctrl3 <-c(0,0,0,1,0,0)
-
-#ce_21_df <-data.frame(ID=as.factor(c("GM","4048","005")),cond=c("scr","stdp"),scr_qpcr=c(ipsc_ce_21_scr_GM,ipsc_ce_21_scr_4048,ipsc_ce_21_scr_005),tdp_qpcr=c(ipsc_ce_21_stdp_GM,ipsc_ce_21_stdp_4048,ipsc_ce_21_stdp_005))
-
-basescope<-data.frame(ID=as.factor(c(rep("MND1",6),rep("MND2",6),rep("MND3",6),rep("MND4",6),rep("ctrl1",6),rep("ctrl2",6),rep("ctrl3",6))), cond=as.factor(c(rep("patients",24),rep("ctrls",18))),
-                           puncta=as.numeric(c(MND1,MND2,MND3,MND4,ctrl1,ctrl2,ctrl3)))
-                                                                                                                       
-   
-
-model_puncta=lmer(puncta ~ cond + (1|ID), data=basescope, REML=FALSE)
-summary(model_puncta)
-```
-
-
 # Suvival Analysis
-```{r Figure 4h}
+```{r Figure 4g}
 library(survival)
 
 figure_4h_data$Genotype=factor(figure_4h_data$Genotype, level=c("Sporadic","C9ORF72+","GRN+"))
@@ -208,8 +209,9 @@ survival_curve_recessive_model <- survfit(Surv(Survival_years,censor)~recessive_
 ggsurvplot(survival_curve_recessive_model, data = figure_4h_data,censor=TRUE,font.tickslab=c(30,"bold","black"), surv.median.line = "hv",font.x="0",font.y="0", palette = c("orange","dark blue"),size=5, legend="none",risk.table=TRUE)
 dev.off()
 ```
+
 # Extended table; Multiple linear regression
-```{r supp table}
+```{r multiple linear regression}
 supp_table_data=read_excel("Supp_figure_source_data.xlsx",sheet="snp_correlation")
 names(supp_table_data)[names(supp_table_data)=="Cryptic Exon RT-qPCR signal (Normalized to the mean of healthy controls)"] <- "CE_qPCR"
 names(supp_table_data)[names(supp_table_data)=="pTDP-43"] <- "pTDP43"
@@ -224,7 +226,6 @@ supp_table_data$Sex_binary[supp_table_data$Sex == "M"] = 1
 
 
 supp_table_data$Genotype=factor(supp_table_data$Genotype,levels=c("Sporadic","C9ORF72+","GRN+"))
-
 
 
 # Create an variable that represents the number of minor allele at rs12973192
@@ -252,22 +253,13 @@ supp_table_data=
 supp_table_data$Genotype = factor(supp_table_data$Genotype)
 supp_table_data$Symptom = factor(supp_table_data$Symptom)
 supp_table_data$Sex_binary = factor(supp_table_data$Sex_binary)
-```
 
-```{r supp_table_linear_regression}
 # with log transformation
 log_10_lm_snp_ce_qpcr=lm(log10(CE_qPCR) ~ genotype_coding_CG+log10(pTDP43)+Sex_binary+Genotype+Symptom+Age_onset,data=supp_table_data)
 log_10_lm_snp_ce_qpcr_wo_age=lm(log10(CE_qPCR) ~ genotype_coding_CG+log10(pTDP43)+Sex_binary+Genotype+Symptom,data=supp_table_data)
 summary(log_10_lm_snp_ce_qpcr)
 AIC(log_10_lm_snp_ce_qpcr)
 shapiro.test(resid(log_10_lm_snp_ce_qpcr))
-
-# without log transformation
-lm_snp_ce_qpcr=lm(CE_qPCR ~ genotype_coding_CG+pTDP43+Sex_binary+Genotype+Symptom+Age_onset,data=supp_table_data)
-summary(lm_snp_ce_qpcr)
-AIC(lm_snp_ce_qpcr)
-shapiro.test(resid(lm_snp_ce_qpcr))
-
 ```
 
 
