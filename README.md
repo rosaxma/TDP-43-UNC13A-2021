@@ -4,4 +4,4 @@
 ## sashimi_plot_for_read_coverage
   Contains the scripts for making the sashimi plot.
 ## junction_spanning_reads_detection
-  Contain the scripts for counting the reads that span the exon-exon junctions.
+  Contains the scripts for counting the reads that span the exon-exon junctions.
