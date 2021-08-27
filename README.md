@@ -5,3 +5,5 @@
   Contains the scripts for making the sashimi plot.
 ## junction_spanning_reads_detection
   Contains the scripts for counting the reads that span the exon-exon junctions.
+## Rscripts_for_analyses.Rmd
+  Scirpts for all the analyses conducted using R (Figure
