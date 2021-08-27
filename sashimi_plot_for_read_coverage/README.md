@@ -5,7 +5,6 @@ RNA-Seq densities along the exons were plotted using the `sashimi_plot` function
 
 
 * MISO (misopy-0.5.4.tar.gz) was installed using the command `pip install misopy`.    
-* 
 
 * The documentation for `sashimi_plot` is at https://miso.readthedocs.io/en/fastmiso/sashimi.html.  
 
