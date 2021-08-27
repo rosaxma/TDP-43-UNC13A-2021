@@ -189,21 +189,21 @@ ggcoxdiagnostics(cox.fit_recessive, type = "deviance",
 
 ```
 
-```{r Figure 4h}
+```{r Figure 4g}
 pdf("survival_curve_additive_model.pdf",width=20, height=10, bg="transparent", onefile=F)
 survival_curve_additive_model <- survfit(Surv(Survival_years,censor)~genotype_coding_CG,data=figure_4h_data)
 ggsurvplot(survival_curve_additive_model, data = figure_4h_data,censor=TRUE,font.tickslab=c(30,"bold","black"), surv.median.line = "hv",font.x="0",font.y="0", palette = c("orange","dark blue","dark green"),size=5, legend="none",risk.table=TRUE)
 dev.off()
 ```
 
-```{r Figure 4h}
+```{r Figure 4g}
 pdf("survival_curve_dominant_model.pdf",width=20, height=10, bg="transparent", onefile=F)
 survival_curve_dominant_model <- survfit(Surv(Survival_years,censor)~dominant_model,data=figure_4h_data)
 ggsurvplot(survival_curve_dominant_model, data = figure_4h_data,censor=TRUE,font.tickslab=c(30,"bold","black"), surv.median.line = "hv",font.x="0",font.y="0", palette = c("orange","dark green"),size=5, legend="none",risk.table=TRUE)
 dev.off()
 ```
 
-```{r Figure 4h}
+```{r Figure 4g}
 pdf("survival_curve_recessive_model.pdf",width=20, height=10, bg="transparent", onefile=F)
 survival_curve_recessive_model <- survfit(Surv(Survival_years,censor)~recessive_model,data=figure_4h_data)
 ggsurvplot(survival_curve_recessive_model, data = figure_4h_data,censor=TRUE,font.tickslab=c(30,"bold","black"), surv.median.line = "hv",font.x="0",font.y="0", palette = c("orange","dark blue"),size=5, legend="none",risk.table=TRUE)
