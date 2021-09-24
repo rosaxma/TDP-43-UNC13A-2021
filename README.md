@@ -6,4 +6,4 @@
 ## junction_spanning_reads_detection
   Contains the scripts for counting the reads that span the exon-exon junctions.
 ## Rscripts_for_analyses.Rmd
-  Scirpts for all the analyses conducted using R (Figure 2c, Figure 3c, Figure 4g and multiple linear regression). 
+  Scirpts for all the analyses conducted using R (Figure 2c, Figure 3c, Figure 4h and multiple linear regression). 
