@@ -76,15 +76,33 @@ ctrl1 <-c(1,1,1,0,1,0)
 ctrl2 <-c(1,0,0,1,1,1)
 ctrl3 <-c(0,0,0,1,0,0)
 
-#ce_21_df <-data.frame(ID=as.factor(c("GM","4048","005")),cond=c("scr","stdp"),scr_qpcr=c(ipsc_ce_21_scr_GM,ipsc_ce_21_scr_4048,ipsc_ce_21_scr_005),tdp_qpcr=c(ipsc_ce_21_stdp_GM,ipsc_ce_21_stdp_4048,ipsc_ce_21_stdp_005))
-
 basescope<-data.frame(ID=as.factor(c(rep("MND1",6),rep("MND2",6),rep("MND3",6),rep("MND4",6),rep("ctrl1",6),rep("ctrl2",6),rep("ctrl3",6))), cond=as.factor(c(rep("patients",24),rep("ctrls",18))),
-                           puncta=as.numeric(c(MND1,MND2,MND3,MND4,ctrl1,ctrl2,ctrl3)))
+                        puncta=as.numeric(c(MND1,MND2,MND3,MND4,ctrl1,ctrl2,ctrl3)))
                                                                                                                        
    
 
 model_puncta=lmer(puncta ~ cond + (1|ID), data=basescope, REML=FALSE)
 summary(model_puncta)
+```
+
+```{r Extended Data Fig 8}
+library (lmerTest) # Mixed model package by Douglas Bates, comes w/ pvalues! 
+# 7 different patient samples;disease vs. healthy; 6 different fields
+MND1_ctrl <- c(264,290,339,345,307,216)
+MND2_ctrl <- c(199,170,142,140,123,103)
+MND3_ctrl <- c(34,55,49,53,42,35)
+MND4_ctrl <- c(32,31,23,48,34,21)
+  
+ctrl1_ctrl <-c(241,260,247,251,196,269)
+ctrl2_ctrl <-c(257,233,222,187,235,232)
+ctrl3_ctrl <-c(297,351,279,298,277,326)
+
+basescope_ctrl <-data.frame(ID=as.factor(c(rep("MND1",6),rep("MND2",6),rep("MND3",6),rep("MND4",6),rep("ctrl1",6),rep("ctrl2",6),rep("ctrl3",6))), cond=as.factor(c(rep("patients",24),rep("ctrls",18))),
+                           puncta=as.numeric(c(MND1_ctrl,MND2_ctrl,MND3_ctrl,MND4_ctrl,ctrl1_ctrl,ctrl2_ctrl,ctrl3_ctrl)))
+
+model_puncta_ctrl=lmer(puncta ~ cond + (1|ID), data=basescope_ctrl, REML=FALSE)
+summary(model_puncta_ctrl)
+
 ```
 
 # Survival Analysis
